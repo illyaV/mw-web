@@ -1,0 +1,31 @@
+.app {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-logo {
+    height: 10vmin;
+}
+
+.app-header {
+    background-color: #282c34;
+    height: 10vh;
+    color: white;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-content {
+    background-color: #fff;
+    flex: 1;
+    width: 100%;
+    overflow: auto;
+}

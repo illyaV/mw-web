@@ -1,0 +1,8 @@
+.posts-list-item {
+    height: 10vmin;
+    border-bottom: 1px solid #282c34;
+}
+
+.posts-list-item img {
+    height: 100%;
+}

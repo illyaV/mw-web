@@ -1,8 +1,9 @@
+const _uniqueId = require("lodash/uniqueId")
 const loremIpsum = require("lorem-ipsum").loremIpsum;
 const https = require("https");
 
 function wait(timeToWait) {
-  return new Promise(function(resolve) {
+  return new Promise(function (resolve) {
     setTimeout(resolve, timeToWait);
   });
 }
@@ -44,8 +45,8 @@ async function createImpacters(numberOfImpacters) {
   for (let index = 0; index < numberOfImpacters; index++) {
     impacters.push({
       id: index,
-      name: loremIpsum({ count: 2, units: "word" }),
-      bio: loremIpsum({ count: 10 }),
+      name: loremIpsum({count: 2, units: "word"}),
+      bio: loremIpsum({count: 10}),
       profile_image: images[index].download_url,
     });
   }
@@ -56,15 +57,15 @@ async function createImpacters(numberOfImpacters) {
 async function createPosts(impacters, numberOfPostsPerImpacter) {
   const result = [];
   for (let i = 0; i < impacters.length; i++) {
-    const { id } = impacters[i];
+    const {id} = impacters[i];
     console.log(`Creating posts for impacter ${id}...`);
     const images = await getImages(numberOfPostsPerImpacter, i + 1);
     for (let index = 0; index < numberOfPostsPerImpacter; index++) {
       try {
-        const { download_url, width, height, author } = images[index];
+        const {download_url, width, height, author} = images[index];
         result.push({
           type: "IMAGES",
-          description: loremIpsum({ count: 10, units: "word" }),
+          description: loremIpsum({count: 10, units: "word"}),
           data: {
             media: [
               {
@@ -76,7 +77,8 @@ async function createPosts(impacters, numberOfPostsPerImpacter) {
               }
             ]
           },
-          impacter_id: id
+          impacter_id: id,
+          id: _uniqueId('post')
         });
       } catch (error) {
         console.log(error);
