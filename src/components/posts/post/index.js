@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 import Button from '../../common/button'
 
@@ -13,6 +14,7 @@ class PostsListItem extends React.Component {
 
   onEditClick = (event) => {
     event.stopPropagation();
+    event.preventDefault();
 
     const {id, onEditClick} = this.props;
 
@@ -21,6 +23,7 @@ class PostsListItem extends React.Component {
 
   onDeleteClick = (event) => {
     event.stopPropagation();
+    event.preventDefault();
 
     const {id, onDeleteClick} = this.props;
 
@@ -28,16 +31,16 @@ class PostsListItem extends React.Component {
   }
 
   render() {
-    const {data: {media: [firstMedia]}} = this.props;
+    const {data: {media: [firstMedia]}, id} = this.props;
 
     return (
-      <div className="posts-list-item">
+      <Link className="posts-list-item" to={`posts/${id}`}>
         <img src={firstMedia.image} alt={firstMedia.description}/>
-        <div className="posts-controls">
+        <div className="controls">
           <Button label="Edit" onClick={this.onEditClick}/>
           <Button label="Delete" onClick={this.onDeleteClick}/>
         </div>
-      </div>
+      </Link>
     )
   }
 }

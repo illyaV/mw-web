@@ -1,5 +1,11 @@
+.posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .posts-list-item {
-    width: auto;
+    display: inline-block;
     height: 60vmin;
     border: 1px solid #909090;
     padding: 2px;
@@ -9,10 +15,9 @@
 
 .posts-list-item img {
     height: 100%;
-    width: auto;
 }
 
-.posts-controls {
+.posts-list-item .controls {
     position: absolute;
     z-index: 1;
     top: 2px;
