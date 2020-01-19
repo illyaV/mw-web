@@ -1,8 +1,20 @@
 .posts-list-item {
-    height: 10vmin;
-    border-bottom: 1px solid #282c34;
+    width: auto;
+    height: 60vmin;
+    border: 1px solid #909090;
+    padding: 2px;
+    margin: 4px 0;
+    position: relative;
 }
 
 .posts-list-item img {
     height: 100%;
+    width: auto;
+}
+
+.posts-controls {
+    position: absolute;
+    z-index: 1;
+    top: 2px;
+    right: 2px;
 }

@@ -29,8 +29,32 @@ class Posts extends Component {
     this.setState({loading: false, posts});
   }
 
+  onEditPostClick = postId => {
+    console.log('Edit post', postId)
+  }
+
+  onDeletePostClick = async postId => {
+    await postsApi.delete(postId);
+
+    this.setState(({posts}) => ({
+      posts: posts.filter(({id}) => id !== postId)
+    }))
+  }
+
+  renderPostsList() {
+    const {posts} = this.state;
+
+    return posts.map(post => (
+      <Post
+        key={post.id}
+        {...post}
+        onEditClick={this.onEditPostClick}
+        onDeleteClick={this.onDeletePostClick}
+      />))
+  }
+
   render() {
-    const {posts, loading} = this.state;
+    const {loading} = this.state;
 
     if (loading) {
       return <Spinner/>
@@ -39,12 +63,7 @@ class Posts extends Component {
     return (
       <div className="posts">
         {
-          posts.slice(0, 10).map(post => (
-            <Post
-              key={post.id}
-              {...post}
-            />
-          ))
+          this.renderPostsList()
         }
       </div>
     )

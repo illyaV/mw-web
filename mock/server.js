@@ -1,9 +1,9 @@
-const fastify = require("fastify")({ logger: false });
+const fastify = require("fastify")({logger: false});
 const fs = require("fs");
 const path = require("path");
 const pump = require("pump");
 const uuidv4 = require("uuid").v4;
-const { createImpacters, createPosts } = require("./generateData");
+const {createImpacters, createPosts} = require("./generateData");
 
 let impacters = [];
 let posts = [];
@@ -53,7 +53,16 @@ fastify.get("/impacters", async (request, reply) => impacters);
 fastify.get("/impacters/:id", async (request, reply) =>
   impacters.find(impacter => impacter.id === request.params.id)
 );
-fastify.get("/posts", async (request, reply) => posts);
+fastify.get("/posts", async (request, reply) => {
+  const {offset = 0, limit = 10, impacter} = request.query;
+  let result = posts;
+
+  if (impacter) {
+    result.filter(({impacter_id}) => impacter === impacter_id)
+  }
+
+  return result.slice(offset, offset + limit)
+});
 fastify.post("/posts", async (request, reply) => {
   const post = request.body;
   post.id = posts.length;
@@ -79,15 +88,15 @@ fastify.put("/posts/:id", async (request, reply) => {
 fastify.delete("/posts/:id", async (request, reply) => {
   const postIndex = posts.findIndex(post => post.id === request.params.id);
   posts.splice(postIndex, 1);
-  return;
+  return null;
 });
 
-fastify.post("/upload", async function(request, reply) {
+fastify.post("/upload", async function (request, reply) {
   const folderPath = `./uploads/${uuidv4()}`;
-  await fs.promises.mkdir(folderPath, { recursive: true });
+  await fs.promises.mkdir(folderPath, {recursive: true});
 
   let filePath;
-  const mp = request.multipart(handler, function(error) {
+  const mp = request.multipart(handler, function (error) {
     if (error) {
       return reply.code(500).send(error);
     }
@@ -97,7 +106,7 @@ fastify.post("/upload", async function(request, reply) {
     });
   });
 
-  mp.on("field", function(key, value) {
+  mp.on("field", function (key, value) {
     console.log("form-data", key, value);
   });
 
